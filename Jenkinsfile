@@ -24,13 +24,13 @@ pipeline {
 
 			//  Pushing Image to Repository
 			docker.withRegistry( '', REGISTRY_CREDENTIAL ) {
-			sh 'docker push karinegh18/test:$BUILD_NUMBER'
-			sh 'docker push karinegh18/test:latest'
-				}
+				sh 'docker push karinegh18/test:$BUILD_NUMBER'
+				sh 'docker push karinegh18/test:latest'
+			}
                 
                 	echo "Image built and pushed to repository"
 		    }
-		    }
+	    }
         }
         stage('Deploy') {
             steps {
