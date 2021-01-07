@@ -1,6 +1,8 @@
 pipeline {
     agent any
     environment {
+        registry = "karinegh18/test"
+        registryCredential = "dockerhub"
         DOCKER_HUB_REPO = "karinegh18/test"
         CONTAINER_NAME = "flask-container"
         STUB_VALUE = "200"
