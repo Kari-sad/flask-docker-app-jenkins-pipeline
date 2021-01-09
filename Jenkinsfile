@@ -35,11 +35,11 @@ pipeline {
         stage('Deploy') {
             steps {
                 script{
-					COUNT= sh 'docker ps -a | grep "$CONTAINER_NAME" | wc -l'
-					if (($COUNT > 0)); then
+					COUNT = sh 'docker ps -a | grep "$CONTAINER_NAME" | wc -l'
+					if (COUNT > 0) {
 						sh 'docker stop $CONTAINER_NAME'
                         sh 'docker rm $CONTAINER_NAME'
-					fi
+					}
 					//run container
 					sh 'docker run --name $CONTAINER_NAME -d -p 5000:5000 $DOCKER_HUB_REPO'
 					//sh 'echo "Latest image/code deployed"'
