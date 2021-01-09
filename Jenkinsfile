@@ -36,7 +36,7 @@ pipeline {
             steps {
                 script{
 					sh 'docker rm $(docker ps -a -f name=$CONTAINER_NAME)'
-						# run container
+					//run container
 					sh 'docker run --name $CONTAINER_NAME -d -p 5000:5000 $DOCKER_HUB_REPO'
 					//sh 'echo "Latest image/code deployed"'
                 }
