@@ -35,8 +35,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 script{
-					if [ ! "$(sh 'docker ps -q -f name=$CONTAINER_NAME')" ]; then
-						if [ "$(sh 'docker ps -aq -f status=exited -f name=$CONTAINER_NAME')" ]; then
+					if [ ! "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
+						if [ "$(docker ps -aq -f status=exited -f name=$CONTAINER_NAME)" ]; then
 							# cleanup
 							sh 'docker stop $CONTAINER_NAME'
 							sh 'docker rm $CONTAINER_NAME'
