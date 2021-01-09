@@ -35,14 +35,14 @@ pipeline {
         stage('Deploy') {
             steps {
                 script{
-					COUNT = sh 'docker ps -a | grep "$CONTAINER_NAME" | wc -l'
-					if( COUNT != 0 ){
-						sh 'docker stop $CONTAINER_NAME'
-                        sh 'docker rm $CONTAINER_NAME'
-					}
-					//run container
-					sh 'docker run --name $CONTAINER_NAME -d -p 5000:5000 $DOCKER_HUB_REPO'
-					//sh 'echo "Latest image/code deployed"'
+			COUNT = sh 'docker ps -a | grep "$CONTAINER_NAME" | wc -l'
+			if( COUNT != 0 ){
+				sh 'docker stop $CONTAINER_NAME'
+                        	sh 'docker rm $CONTAINER_NAME'
+				echo "Existing container removed"
+				}
+			//run container
+			sh 'docker run --name $CONTAINER_NAME -d -p 5000:5000 $DOCKER_HUB_REPO'
                 }
             }
         }
