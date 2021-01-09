@@ -36,7 +36,7 @@ pipeline {
             steps {
                 script{
 					COUNT = sh 'docker ps -a | grep "$CONTAINER_NAME" | wc -l'
-					if (COUNT > 0) {
+					if( COUNT != 0 ){
 						sh 'docker stop $CONTAINER_NAME'
                         sh 'docker rm $CONTAINER_NAME'
 					}
