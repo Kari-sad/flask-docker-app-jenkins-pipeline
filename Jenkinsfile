@@ -35,16 +35,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 script{
-					if ( ! (sh 'docker ps -q -f name=$CONTAINER_NAME') ); then
-						if ( (sh 'docker ps -aq -f status=exited -f name=$CONTAINER_NAME') ); then
-							# cleanup
-							sh 'docker stop $CONTAINER_NAME'
-							sh 'docker rm $CONTAINER_NAME'
-						fi
+					sh 'docker rm $(docker ps -a -f name=$CONTAINER_NAME)'
 						# run container
-						sh 'docker run --name $CONTAINER_NAME -d -p 5000:5000 $DOCKER_HUB_REPO'
-					fi
-                    //sh 'echo "Latest image/code deployed"'
+					sh 'docker run --name $CONTAINER_NAME -d -p 5000:5000 $DOCKER_HUB_REPO'
+					//sh 'echo "Latest image/code deployed"'
                 }
             }
         }
