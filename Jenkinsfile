@@ -24,8 +24,8 @@ pipeline {
 
 			//  Pushing Image to Repository
 			docker.withRegistry( '', REGISTRY_CREDENTIAL ) {
-				sh 'docker push karinegh18/test:$BUILD_NUMBER'
-				sh 'docker push karinegh18/test:latest'
+				sh 'docker push DOCKER_HUB_REPO:$BUILD_NUMBER'
+				sh 'docker push DOCKER_HUB_REPO:latest'
 			}
                 
                 	echo "Image built and pushed to repository"
@@ -35,18 +35,19 @@ pipeline {
         stage('Deploy') {
             steps {
                 script{
-                    //sh 'BUILD_NUMBER = ${BUILD_NUMBER}'
-                    if (BUILD_NUMBER == "1") {
-                        sh 'docker run --name $CONTAINER_NAME -d -p 5000:5000 $DOCKER_HUB_REPO'
-                    }
-                    else {
-                        sh 'docker stop $CONTAINER_NAME'
-                        sh 'docker rm $CONTAINER_NAME'
-                        sh 'docker run --name $CONTAINER_NAME -d -p 5000:5000 $DOCKER_HUB_REPO'
-                    }
+					if [ ! "$(sh 'docker ps -q -f name=$CONTAINER_NAME)'" ]; then
+						if [ "$(sh 'docker ps -aq -f status=exited -f name=$CONTAINER_NAME)'" ]; then
+							# cleanup
+							sh 'docker stop $CONTAINER_NAME'
+							sh 'docker rm $CONTAINER_NAME'
+						fi
+						# run container
+						sh 'docker run --name $CONTAINER_NAME -d -p 5000:5000 $DOCKER_HUB_REPO'
+					fi
                     //sh 'echo "Latest image/code deployed"'
                 }
             }
         }
     }
 }
+
