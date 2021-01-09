@@ -24,8 +24,8 @@ pipeline {
 
 			//  Pushing Image to Repository
 			docker.withRegistry( '', REGISTRY_CREDENTIAL ) {
-				sh 'docker push DOCKER_HUB_REPO:$BUILD_NUMBER'
-				sh 'docker push DOCKER_HUB_REPO:latest'
+				sh 'docker push $DOCKER_HUB_REPO:$BUILD_NUMBER'
+				sh 'docker push $DOCKER_HUB_REPO:latest'
 			}
                 
                 	echo "Image built and pushed to repository"
